@@ -179,14 +179,6 @@ function AnalysisCard({ summary, sources }: { summary: Summary; sources: Source[
             </div>
           </div>
 
-          {/* Tags */}
-          {summary.tags.length > 0 && (
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 16 }}>
-              {summary.tags.map((tag, i) => (
-                <span key={i} style={{ padding: "4px 12px", borderRadius: 20, border: "1px solid #e5e7eb", background: "#f9fafb", fontSize: 12, color: "#374151", fontWeight: 500 }}>{tag}</span>
-              ))}
-            </div>
-          )}
         </div>
       </div>
 
@@ -196,13 +188,13 @@ function AnalysisCard({ summary, sources }: { summary: Summary; sources: Source[
           <button onClick={() => setSourcesOpen(o => !o)} style={{ width: "100%", padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", border: "none", background: "transparent", cursor: "pointer" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <IconFileText />
-              <span style={{ fontSize: 15, fontWeight: 600, color: "#111827" }}>주요 출처 ({sources.length}개 검토)</span>
+              <span style={{ fontSize: 15, fontWeight: 600, color: "#111827" }}>참고 리뷰 ({sources.length}개 검토)</span>
             </div>
             {sourcesOpen ? <IconChevronUp /> : <IconChevronDown />}
           </button>
           {sourcesOpen && (
             <div style={{ borderTop: "1px solid #f3f4f6" }}>
-              {sources.slice(0, 3).map((src, i) => (
+              {sources.map((src, i) => (
                 <div key={i} style={{ padding: "16px 20px", borderBottom: i < sources.length - 1 ? "1px solid #f3f4f6" : "none" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -211,8 +203,8 @@ function AnalysisCard({ summary, sources }: { summary: Summary; sources: Source[
                       </span>
                       <span style={{ fontSize: 14, fontWeight: 600, color: "#111827" }}>{src.author}</span>
                     </div>
-                    <span style={{ fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 6, background: "#eff6ff", color: "#2563eb", letterSpacing: "0.03em" }}>관련도: {src.relevance}%</span>
                   </div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: "#111827", marginBottom: 4 }}>{src.title}</div>
                   <p style={{ fontSize: 13, color: "#6b7280", lineHeight: 1.6, margin: 0 }}>"{src.content}"</p>
                 </div>
               ))}
@@ -258,76 +250,80 @@ function ActiveChatPage({
       <style>{`@keyframes spin { to { transform: rotate(360deg); } } @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }`}</style>
 
       {/* Messages */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "24px 40px" }}>
-        {messages.map((msg, i) => (
-          <div key={i} style={{ marginBottom: 24, animation: "fadeIn 0.3s ease" }}>
-            {msg.role === "user" ? (
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <div style={{ maxWidth: 640, padding: "14px 18px", borderRadius: "18px 18px 4px 18px", background: "linear-gradient(135deg, #3b82f6, #2563eb)", color: "#fff", fontSize: 15, lineHeight: 1.6, boxShadow: "0 2px 8px rgba(37,99,235,0.25)" }}>
-                  {msg.content}
-                </div>
-              </div>
-            ) : (
-              <div style={{ display: "flex", gap: 14 }}>
-                <div style={{ width: 36, height: 36, borderRadius: 10, flexShrink: 0, background: "linear-gradient(135deg, #3b82f6, #2563eb)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(59,130,246,0.3)" }}>
-                  <IconBot />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ padding: "14px 18px", borderRadius: "4px 18px 18px 18px", border: "1px solid #e5e7eb", background: "#fff", fontSize: 15, lineHeight: 1.7, color: "#374151", marginBottom: msg.summary ? 16 : 0, boxShadow: "0 1px 4px rgba(0,0,0,0.05)" }}>
+      <div style={{ flex: 1, overflowY: "auto", padding: "24px 20px" }}>
+        <div style={{ maxWidth: 720, margin: "0 auto", width: "100%" }}>
+          {messages.map((msg, i) => (
+            <div key={i} style={{ marginBottom: 24, animation: "fadeIn 0.3s ease" }}>
+              {msg.role === "user" ? (
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <div style={{ maxWidth: 640, padding: "14px 18px", borderRadius: "18px 18px 4px 18px", background: "linear-gradient(135deg, #3b82f6, #2563eb)", color: "#fff", fontSize: 15, lineHeight: 1.6, boxShadow: "0 2px 8px rgba(37,99,235,0.25)" }}>
                     {msg.content}
                   </div>
-                  {msg.summary && msg.sources && (
-                    <AnalysisCard summary={msg.summary} sources={msg.sources} />
-                  )}
                 </div>
-              </div>
-            )}
-          </div>
-        ))}
+              ) : (
+                <div style={{ display: "flex", gap: 14 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, flexShrink: 0, background: "linear-gradient(135deg, #3b82f6, #2563eb)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(59,130,246,0.3)" }}>
+                    <IconBot />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ padding: "14px 18px", borderRadius: "4px 18px 18px 18px", border: "1px solid #e5e7eb", background: "#fff", fontSize: 15, lineHeight: 1.7, color: "#374151", marginBottom: msg.summary ? 16 : 0, boxShadow: "0 1px 4px rgba(0,0,0,0.05)" }}>
+                      {msg.content}
+                    </div>
+                    {msg.summary && msg.sources && (
+                      <AnalysisCard summary={msg.summary} sources={msg.sources} />
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
 
-        {/* Loading indicator */}
-        {isLoading && (
-          <div style={{ display: "flex", gap: 14, marginBottom: 24 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 10, flexShrink: 0, background: "linear-gradient(135deg, #3b82f6, #2563eb)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <IconBot />
+          {/* Loading indicator */}
+          {isLoading && (
+            <div style={{ display: "flex", gap: 14, marginBottom: 24 }}>
+              <div style={{ width: 36, height: 36, borderRadius: 10, flexShrink: 0, background: "linear-gradient(135deg, #3b82f6, #2563eb)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <IconBot />
+              </div>
+              <div style={{ padding: "14px 18px", borderRadius: "4px 18px 18px 18px", border: "1px solid #e5e7eb", background: "#fff", display: "flex", alignItems: "center", gap: 10, color: "#9ca3af", fontSize: 14 }}>
+                <IconLoader /> 리뷰를 분석하는 중...
+              </div>
             </div>
-            <div style={{ padding: "14px 18px", borderRadius: "4px 18px 18px 18px", border: "1px solid #e5e7eb", background: "#fff", display: "flex", alignItems: "center", gap: 10, color: "#9ca3af", fontSize: 14 }}>
-              <IconLoader /> 리뷰를 분석하는 중...
-            </div>
-          </div>
-        )}
-        <div ref={messagesEndRef} />
+          )}
+          <div ref={messagesEndRef} />
+        </div>
       </div>
 
       {/* Input */}
-      <div style={{ padding: "0 40px 12px", borderTop: "1px solid #f3f4f6", paddingTop: 12 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, border: "1px solid #e5e7eb", borderRadius: 14, background: "#fff", padding: "10px 14px 10px 18px", boxShadow: "0 1px 4px rgba(0,0,0,0.05)" }}>
-          <textarea
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="특정 기능, 가격 대비 성능, 또는 비교 제품에 대해 물어보세요..."
-            rows={1}
-            disabled={isLoading}
-            style={{ flex: 1, border: "none", outline: "none", fontSize: 15, color: "#374151", resize: "none", fontFamily: "inherit", background: "transparent", lineHeight: 1.5 }}
-          />
-          <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
-            <button style={{ width: 32, height: 32, borderRadius: 8, border: "none", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#9ca3af" }}
-              onMouseEnter={e => (e.currentTarget.style.background = "#f3f4f6")}
-              onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-            ><IconPaperclip /></button>
-            <button
-              onClick={handleSend}
-              disabled={isLoading || !input.trim()}
-              style={{ width: 36, height: 36, borderRadius: 10, border: "none", background: isLoading || !input.trim() ? "#e5e7eb" : "linear-gradient(135deg, #3b82f6, #2563eb)", cursor: isLoading || !input.trim() ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", boxShadow: isLoading ? "none" : "0 2px 6px rgba(37,99,235,0.3)", transition: "all 0.15s" }}
-            >
-              {isLoading ? <IconLoader /> : <IconSend />}
-            </button>
+      <div style={{ borderTop: "1px solid #f3f4f6", paddingBottom: 12 }}>
+        <div style={{ maxWidth: 720, margin: "0 auto", width: "100%", padding: "12px 20px 0" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, border: "1px solid #e5e7eb", borderRadius: 14, background: "#fff", padding: "10px 14px 10px 18px", boxShadow: "0 1px 4px rgba(0,0,0,0.05)" }}>
+            <textarea
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="특정 기능, 가격 대비 성능, 또는 비교 제품에 대해 물어보세요..."
+              rows={1}
+              disabled={isLoading}
+              style={{ flex: 1, border: "none", outline: "none", fontSize: 15, color: "#374151", resize: "none", fontFamily: "inherit", background: "transparent", lineHeight: 1.5 }}
+            />
+            <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+              <button style={{ width: 32, height: 32, borderRadius: 8, border: "none", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#9ca3af" }}
+                onMouseEnter={e => (e.currentTarget.style.background = "#f3f4f6")}
+                onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+              ><IconPaperclip /></button>
+              <button
+                onClick={handleSend}
+                disabled={isLoading || !input.trim()}
+                style={{ width: 36, height: 36, borderRadius: 10, border: "none", background: isLoading || !input.trim() ? "#e5e7eb" : "linear-gradient(135deg, #3b82f6, #2563eb)", cursor: isLoading || !input.trim() ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", boxShadow: isLoading ? "none" : "0 2px 6px rgba(37,99,235,0.3)", transition: "all 0.15s" }}
+              >
+                {isLoading ? <IconLoader /> : <IconSend />}
+              </button>
+            </div>
           </div>
+          <p style={{ textAlign: "center", fontSize: 12, color: "#9ca3af", marginTop: 6 }}>
+            AI가 요약된 데이터를 제공할 수 있습니다. 구매 전 주요 사항을 직접 확인하세요.
+          </p>
         </div>
-        <p style={{ textAlign: "center", fontSize: 12, color: "#9ca3af", marginTop: 6 }}>
-          AI가 요약된 데이터를 제공할 수 있습니다. 구매 전 주요 사항을 직접 확인하세요.
-        </p>
       </div>
     </div>
   );
@@ -354,12 +350,12 @@ function WelcomePage({ onSubmit }: { onSubmit: (msg: string) => void }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between", height: "100%", padding: "48px 24px 16px" }}>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24, textAlign: "center", maxWidth: 640, width: "100%" }}>
-        <div style={{ width: 68, height: 68, borderRadius: 18, background: "linear-gradient(135deg,#3b82f6,#2563eb)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 20px rgba(59,130,246,0.35)" }}>
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+        <div style={{ width: 200, height: 200, borderRadius: 24, overflow: "hidden", boxShadow: "0 10px 30px rgba(0,0,0,0.1)", marginBottom: 8 }}>
+          <img src="/images/premium-wireless-earbud-pro.png" alt="Premium Wireless Earbud Pro" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
         <div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, color: "#111827", letterSpacing: "-0.5px", marginBottom: 12, margin: "0 0 12px" }}>오늘 무엇을 도와드릴까요?</h1>
-          <p style={{ fontSize: 15, color: "#6b7280", lineHeight: 1.6, maxWidth: 480, margin: 0 }}>프리미엄 무선 이어버드 Pro에 대해 기술 사양부터 실제 사용자 경험까지 무엇이든 물어보세요.</p>
+          <h1 style={{ fontSize: 32, fontWeight: 800, color: "#111827", letterSpacing: "-0.5px", marginBottom: 12, margin: "0 0 12px" }}>반갑습니다. 무엇을 도와드릴까요?</h1>
+          <p style={{ fontSize: 15, color: "#6b7280", lineHeight: 1.6, maxWidth: 480, margin: 0 }}>Premium Wireless Earbud Pro에 대해 기술 사양부터 실제 사용자 경험까지 무엇이든 물어보세요!</p>
         </div>
         <div style={{ display: "flex", gap: 16, width: "100%", marginTop: 8 }}>
           {suggestions.map((s, i) => (
@@ -375,13 +371,13 @@ function WelcomePage({ onSubmit }: { onSubmit: (msg: string) => void }) {
         </div>
       </div>
 
-      <div style={{ width: "100%", maxWidth: 760 }}>
+      <div style={{ width: "100%", maxWidth: 720 }}>
         <div style={{ border: "1px solid #e5e7eb", borderRadius: 14, background: "#fff", padding: "12px 16px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
           <textarea
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
-            placeholder="프리미엄 무선 이어버드 Pro에 대해 물어보세요..."
+            placeholder="Premium Wireless Earbud Pro에 대해 물어보세요..."
             rows={1}
             style={{ width: "100%", border: "none", outline: "none", fontSize: 15, color: "#374151", resize: "none", fontFamily: "inherit", background: "transparent", lineHeight: 1.5 }}
           />
@@ -412,11 +408,15 @@ function Sidebar({
   onNewChat,
   onIndex,
   indexStatus,
+  recentChats,
+  savedItems,
 }: {
   view: View;
   onNewChat: () => void;
   onIndex: () => void;
   indexStatus: "idle" | "loading" | "done" | "error";
+  recentChats: string[];
+  savedItems: string[];
 }) {
   const isActive = view === "active";
 
@@ -441,28 +441,30 @@ function Sidebar({
           onMouseEnter={e => (e.currentTarget.style.boxShadow = "0 4px 14px rgba(37,99,235,0.4)")}
           onMouseLeave={e => (e.currentTarget.style.boxShadow = "0 2px 8px rgba(37,99,235,0.3)")}
         >
-          <IconPlus /> {isActive ? "새 분석" : "새 채팅"}
+          <IconPlus /> 새 분석
         </button>
       </div>
 
       <nav style={{ flex: 1, padding: "0 8px", overflowY: "auto" }}>
-        {!isActive ? (
-          <>
-            <div style={{ padding: "6px 8px", fontSize: 11, fontWeight: 700, color: "#9ca3af", letterSpacing: "0.08em" }}>탐색</div>
-            <NavItem icon={<IconProduct />} label="제품 선택" hasChevron />
-            <NavItem icon={<IconHistory />} label="기록" />
-          </>
-        ) : (
-          <>
-            <div style={{ padding: "6px 8px", fontSize: 11, fontWeight: 700, color: "#9ca3af", letterSpacing: "0.08em" }}>최근 채팅</div>
-            <ChatItem label="이어버드 배터리 수명" active />
-            <ChatItem label="노이즈 캔슬링 테스트" />
-            <ChatItem label="인체공학 및 착용감" />
-            <div style={{ padding: "14px 8px 6px", fontSize: 11, fontWeight: 700, color: "#9ca3af", letterSpacing: "0.08em" }}>저장된 항목</div>
-            <SavedItem label="Sony WH-1000XM5" />
-            <SavedItem label="Bose QuietComfort" />
-          </>
-        )}
+        <div style={{ padding: "12px 12px 8px", display: "flex", alignItems: "center", gap: 6, fontSize: 11, fontWeight: 700, color: "#9ca3af", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+          <IconFileText /> 최근 채팅
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          {recentChats.map((chat, i) => (
+            <ChatItem key={i} label={chat.length > 200 ? chat.slice(0, 200) + "..." : chat} active={isActive && i === 0} />
+          ))}
+        </div>
+
+        <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid #f3f4f6" }}>
+          <div style={{ padding: "0 12px 8px", display: "flex", alignItems: "center", gap: 6, fontSize: 11, fontWeight: 700, color: "#9ca3af", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+            <IconBookmark /> 저장된 항목
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {savedItems.map((item, i) => (
+              <SavedItem key={i} label={item} />
+            ))}
+          </div>
+        </div>
       </nav>
 
       {/* 인덱싱 버튼 */}
@@ -485,8 +487,8 @@ function Sidebar({
           <span style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>{isActive ? "A" : "U"}</span>
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 14, fontWeight: 600, color: "#111827" }}>{isActive ? "Alex Johnson" : "사용자 계정"}</div>
-          <div style={{ fontSize: 12, color: "#9ca3af" }}>{isActive ? "Pro 플랜" : "무료 티어"}</div>
+          <div style={{ fontSize: 14, fontWeight: 600, color: "#111827" }}>{isActive ? "최프로" : "김무료"}</div>
+          <div style={{ fontSize: 12, color: "#9ca3af" }}>{isActive ? "Pro Tier" : "Free Tier"}</div>
         </div>
         {isActive && <button style={{ background: "transparent", border: "none", cursor: "pointer", color: "#9ca3af" }}><IconMoreVert /></button>}
       </div>
@@ -542,7 +544,7 @@ function Header({ view }: { view: View }) {
           <IconShoppingBag />
         </div>
         <div>
-          <div style={{ fontSize: 15, fontWeight: 700, color: "#111827" }}>프리미엄 무선 이어버드 Pro</div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: "#111827" }}>Premium Wireless Earbud Pro</div>
           <div style={{ fontSize: 12, color: "#9ca3af" }}>{isActive ? "AI 제품 리뷰 어시스턴트" : "리뷰 어시스턴트"}</div>
         </div>
       </div>
@@ -568,10 +570,19 @@ export default function Home() {
   const [sessionId, setSessionId] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [indexStatus, setIndexStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [recentChats, setRecentChats] = useState<string[]>([]);
+  const [savedItems, setSavedItems] = useState<string[]>([]);
 
   async function handleSubmit(query: string) {
     setView("active");
     setIsLoading(true);
+
+    // 첫 질문일 경우 사이드바 업데이트
+    if (messages.length === 0) {
+      setRecentChats(prev => [query, ...prev]);
+      setSavedItems(prev => ["Premium Wireless Earbud Pro", ...prev]);
+    }
+
     setMessages(prev => [...prev, { role: "user", content: query }]);
 
     try {
@@ -632,7 +643,14 @@ export default function Home() {
 
   return (
     <div style={{ display: "flex", height: "100vh", overflow: "hidden", fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif", background: "#fff" }}>
-      <Sidebar view={view} onNewChat={handleNewChat} onIndex={handleIndex} indexStatus={indexStatus} />
+      <Sidebar
+        view={view}
+        onNewChat={handleNewChat}
+        onIndex={handleIndex}
+        indexStatus={indexStatus}
+        recentChats={recentChats}
+        savedItems={savedItems}
+      />
       <main style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
         <Header view={view} />
         <div style={{ flex: 1, overflow: "hidden" }}>

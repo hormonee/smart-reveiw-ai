@@ -60,3 +60,9 @@ export async function similaritySearch(query: string, k = 5) {
     const vectorStore = await getPineconeVectorStore();
     return await vectorStore.similaritySearch(query, k);
 }
+
+// 유사도 검색 + 점수 포함 (상위 k개 반환)
+export async function similaritySearchWithScore(query: string, k = 5) {
+    const vectorStore = await getPineconeVectorStore();
+    return await vectorStore.similaritySearchWithScore(query, k);
+}

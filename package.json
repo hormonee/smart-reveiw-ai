@@ -9,6 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@langchain/core": "^1.1.30",
+    "@langchain/openai": "^1.2.12",
+    "@langchain/pinecone": "^1.0.1",
+    "@pinecone-database/pinecone": "^5.1.2",
+    "@supabase/supabase-js": "^2.98.0",
+    "csv-parse": "^6.1.0",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3"

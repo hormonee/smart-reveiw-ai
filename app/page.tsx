@@ -544,7 +544,7 @@ function Header({ view }: { view: View }) {
           <IconShoppingBag />
         </div>
         <div>
-          <div style={{ fontSize: 15, fontWeight: 700, color: "#111827" }}>Premium Wireless Earbud Pro</div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: "#111827" }}>Smart Review AI</div>
           <div style={{ fontSize: 12, color: "#9ca3af" }}>{isActive ? "AI 제품 리뷰 어시스턴트" : "리뷰 어시스턴트"}</div>
         </div>
       </div>

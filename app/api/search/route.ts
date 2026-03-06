@@ -115,8 +115,8 @@ export async function POST(req: NextRequest) {
                 configuration: {
                     baseURL: "http://127.0.0.1:1234/v1", // LM Studio 기본 API 주소
                 },
-                maxTokens: 4000,
-                temperature: 0.3,
+                maxTokens: 6000,
+                temperature: 0.4,
             });
 
             const contextText = sources.map(s => `- 평점: ${s.rating}점 / 리뷰: ${s.content}`).join("\n");

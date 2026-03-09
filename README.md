@@ -6,7 +6,7 @@
 
 ---
 
-## 📸 Screenshots
+## 📸 Preview
 
 ![smart-review-ai](design/smart-review-ai.png)
 
